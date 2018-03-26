@@ -1,0 +1,5 @@
+config.lua
+test.lua
+
+*.pyc
+

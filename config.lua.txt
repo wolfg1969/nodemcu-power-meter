@@ -1,0 +1,16 @@
+local config = {
+  DEBUG = true,
+
+  WIFI_SSID = "<ssid>",
+  WIFI_PASSWD = "<password>",
+  
+  DOMOTICZ_USER = "<username>",
+  DOMOTICZ_PASSWD = "<password>",
+  DOMOTICZ_API_URL = "http://<ip>:8080/json.htm",
+  DOMOTICZ_DEVICE_ID = "<device id>",
+  
+  REPORT_INTERVAL = 60 -- report to domoticz every minute 
+}
+
+return config
+
