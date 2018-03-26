@@ -17,9 +17,8 @@ function startup()
                 countdown = nil
                 local s,err
                 s,err = pcall(function() 
-                    if config.DEBUG then
-                        dofile("telnet.lua")
-                    else
+                    dofile("telnet.lua")
+                    if not config.DEBUG then
                         dofile("app.lua")
                     end
                 end)
