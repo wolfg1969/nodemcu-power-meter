@@ -44,16 +44,18 @@ function measure()
       uart.on("data")
       --uart.alt(0)
       uart.setup(0, 115200, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
-      print("uart restored")
+      --print("uart restored")
       
-      --local d3, d4, d5, d6 = string.byte(rawData, 4, 7)
-      --local d7, d8, d9, d10 = string.byte(rawData, 8, 11)
-      local d11, d12, d13, d14 = string.byte(rawData, 12, 15)
-      local d15, d16, d17, d18 = string.byte(rawData, 16, 19)
+      --local d3, d4, d5, d6 = string.byte(rawData, 4, 7) -- voltage
+      --local d7, d8, d9, d10 = string.byte(rawData, 8, 11)  -- current
+      local d11, d12, d13, d14 = string.byte(rawData, 12, 15) -- active power
+      local d15, d16, d17, d18 = string.byte(rawData, 16, 19) -- total energy
+      --local d19, d20, d21, d22 = string.byte(rawData, 20, 23) -- power factor
+      --local d23, d24, d25, d26 = string.byte(rawData, 24, 27) -- carbon emission
 
-      --local v = bit.bor(bit.lshift(d3, 24), bit.lshift(d4, 16), bit.lshift(d5, 8), d6)
-      --local c = bit.bor(bit.lshift(d7, 24), bit.lshift(d8, 16), bit.lshift(d9, 8), d10)
-      
+      --local voltage = bit.bor(bit.lshift(d3, 24), bit.lshift(d4, 16), bit.lshift(d5, 8), d6)
+      --local current = bit.bor(bit.lshift(d7, 24), bit.lshift(d8, 16), bit.lshift(d9, 8), d10)
+    
       -- power = data/10000, W
       data.power = bit.bor(
         bit.lshift(d11, 24), 
