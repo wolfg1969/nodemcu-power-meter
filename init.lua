@@ -1,5 +1,6 @@
 -- load credentials, 'SSID' and 'PASSWORD' declared and initialize in there
 local config = require("config")
+local domoticz = require("domoticz")
 
 function startup()
     if file.open("init.lua") == nil then
@@ -8,7 +9,7 @@ function startup()
         print("Running")
         file.close("init.lua")
         
-        countdown = 3
+        countdown = 5 
         tmr.alarm(0, 1000, 1, function()
             print(countdown)
             countdown = countdown-1
@@ -16,13 +17,19 @@ function startup()
                 tmr.stop(0)
                 countdown = nil
                 local s,err
-                s,err = pcall(function() 
-                    dofile("telnet.lua")
-                    if not config.DEBUG then
-                        dofile("app.lua")
+                if config.DEBUG then
+                    s,err = pcall(function() dofile("telnet.lua") end)
+                else
+                    s,err = pcall(function() dofile("app.lua") end)
+                end
+                if not s then 
+                    print(err)
+                    if not config.DEBUG then domoticz.updateDevice(72, err) end
+                else
+                    if not config.DEBUG then 
+                        domoticz.updateDevice(72, "power meter started") 
                     end
-                end)
-                if not s then print(err) end
+                end
             end
         end)
     end
@@ -39,7 +46,7 @@ wifi_got_ip_event = function(T)
   -- Note: Having an IP address does not mean there is internet access!
   -- Internet connectivity can be determined with net.dns.resolve().    
   print("Wifi connection is ready! IP address is: "..T.IP)
-  print("Startup will resume momentarily, you have 3 seconds to abort.")
+  print("Startup will resume momentarily, you have 5 seconds to abort.")
   print("Waiting...") 
   tmr.create():alarm(3000, tmr.ALARM_SINGLE, startup)
 end

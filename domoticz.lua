@@ -1,10 +1,11 @@
+local config = require("config")
 local domoticz = {}
 
-domoticz.updateEnergyCounter = function(apiURL, user, pass, deviceId, sValue)
+domoticz.updateDevice = function(deviceId, sValue)
 
-  local auth_code = crypto.toBase64(user .. ":" .. pass)
+  local auth_code = crypto.toBase64(config.DOMOTICZ_USER .. ":" .. config.DOMOTICZ_PASSWD)
   
-  http.get(apiURL .. "?type=command&param=udevice&idx=" .. deviceId .. "&nvalue=0&svalue=" .. sValue,
+  http.get(config.DOMOTICZ_API_URL .. "?type=command&param=udevice&idx=" .. deviceId .. "&nvalue=0&svalue=" .. tostring(sValue),
     "Authorization: Basic " .. auth_code .. "\r\n",
     function(code, data)
       if (code < 0) then
