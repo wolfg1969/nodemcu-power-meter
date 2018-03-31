@@ -9,32 +9,14 @@ local data = {
 }
 
 function measure()
-  --print("measure")
-  
-  --[[
-  tmr.alarm(2, measureTimeout, tmr.ALARM_SINGLE,
-    function()
-      --uart.alt(0)
-      uart.setup(0, 115200, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
-      uart.on("data")
-      print("Timed out. Restored UART.")
-    end
-  )
-  print("timeout timer is set up")
-  --]]
 
-  --uart.alt(1)
   uart.setup(0, 4800, 8, uart.PARITY_NONE, uart.STOPBITS_1, 0)
 
   uart.on("data", 37,
     function(rawData)
-      --tmr.stop(2)
-
       -- unregister uart.on callback
       uart.on("data")
-      --uart.alt(0)
       uart.setup(0, 115200, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
-      --print("uart restored")
       
       --local d3, d4, d5, d6 = string.byte(rawData, 4, 7) -- voltage
       --local d7, d8, d9, d10 = string.byte(rawData, 8, 11)  -- current
@@ -66,7 +48,7 @@ function measure()
       countdown = countdown - 1
       if countdown<1 then
         countdown = config.REPORT_COUNTDOWN
-        domoticz.updateDevice(73, data.power .. ";" .. data.energy)
+        domoticz.updateDevice(config.DOMOTICZ_DEVICE_ID, data.power .. ";" .. data.energy)
       end
     end,
     0

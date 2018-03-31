@@ -22,14 +22,7 @@ function startup()
                 else
                     s,err = pcall(function() dofile("app.lua") end)
                 end
-                if not s then 
-                    print(err)
-                    if not config.DEBUG then domoticz.updateDevice(72, err) end
-                else
-                    if not config.DEBUG then 
-                        domoticz.updateDevice(72, "power meter started") 
-                    end
-                end
+                if not s then print(err) end
             end
         end)
     end
